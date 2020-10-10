@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const { register, login } = require("./services/user.services");
+const { register, login, _createList } = require("./services/user.services");
 const { deCode } = require("./utils/crypto");
 const { verifyToken } = require("./utils/jwt");
 const bodyParser = require("body-parser");
@@ -37,6 +37,8 @@ app.use(async (req, res, next) => {
     next(e);
   }
 });
+//listuser
+_createList();
 
 //login
 app.post("/login", bodyParser.json(), async function (req, res, next) {
