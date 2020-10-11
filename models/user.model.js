@@ -1,6 +1,6 @@
 const { Schema } = require("mongoose");
 const mongoose = require("mongoose");
-const listUser = require('../services/listuser');
+const listUser = require('../utils/random');
 
 const User = new mongoose.Schema({
   name: { type: String },

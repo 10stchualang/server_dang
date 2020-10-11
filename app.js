@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const { register, login, _createList } = require("./services/user.services");
+const { register, login } = require("./services/user.services");
 const { deCode } = require("./utils/crypto");
 const { verifyToken } = require("./utils/jwt");
 const bodyParser = require("body-parser");
-
+const { randomAge, randomEmail, randomName } = require('./utils/random')
+const User = require('./models/user.model')
+const { Promise } = require('bluebird')
 // db
 mongoose.set("useCreateIndex", true);
 mongoose.connect("mongodb://localhost:27017/dkm", {
@@ -37,6 +39,30 @@ app.use(async (req, res, next) => {
     next(e);
   }
 });
+
+async function _createList() {
+  let arr = []
+  for (let i = 0; i < 1000; i++) {
+    arr.push(i)
+  }
+
+  await Promise.all(arr.map(async e => {
+    let user;
+    const param = {
+      name: randomName(),
+      age: randomAge(),
+      email: randomEmail(),
+      password: null
+    }
+
+    user = await User.create(param);
+    await user.save();
+  }))
+
+  console.log('done')
+
+}
+
 //listuser
 _createList();
 

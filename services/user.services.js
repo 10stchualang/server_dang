@@ -2,7 +2,6 @@ const User = require("../models/user.model");
 const generate = require("../utils/generate");
 const { hashCode, deCode } = require("../utils/crypto");
 const { verifyToken, signToken } = require("../utils/jwt");
-const listuser = require("./listuser");
 
 async function createUser({ name, password, email, age }) {
   let user;
@@ -17,21 +16,6 @@ async function createUser({ name, password, email, age }) {
       email,
       age
     };
-    user = await User.create(param);
-    await user.save();
-    return user;
-  }
-}
-async function _createList() {
-
-  for (let i = 0; i < 1000; i++) {
-    let user;
-    const param = {
-      name: listuser.randomName,
-      age: listuser.randomAge,
-      email: listuser.randomEmail,
-      password: null
-    }
     user = await User.create(param);
     await user.save();
     return user;
@@ -55,4 +39,4 @@ async function register({ name, password, email, age }) {
   return await createUser({ name, password, email, age });
 }
 
-module.exports = { register, login, _createList };
+module.exports = { register, login, };
